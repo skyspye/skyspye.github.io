@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>SkySpye — Your Window to the World Below</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a0f1e;
+  --navy-mid:#111827;
+  --navy-light:#1a2540;
+  --gold:#c9a84c;
+  --gold-light:#e8c97a;
+  --ivory:#f5f0e8;
+  --ivory-dim:#b8b0a0;
+  --green:#3ecf8e;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'Outfit',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--ivory);font-family:var(--font-body);font-weight:300;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 48px;
+  background:linear-gradient(to bottom,rgba(10,15,30,0.95),transparent);
+}
+.nav-brand{font-family:var(--font-display);font-size:1.5rem;letter-spacing:0.15em;color:var(--ivory)}
+.nav-brand span{color:var(--gold)}
+.nav-cta{
+  background:transparent;border:1px solid rgba(201,168,76,0.4);
+  color:var(--gold-light);padding:10px 24px;border-radius:3px;
+  font-family:var(--font-mono);font-size:0.7rem;letter-spacing:0.12em;
+  text-transform:uppercase;cursor:pointer;text-decoration:none;
+  transition:all 0.2s;
+}
+.nav-cta:hover{background:rgba(201,168,76,0.1);border-color:var(--gold)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 80px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 60%,rgba(201,168,76,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* star field */
+.stars{position:absolute;inset:0;pointer-events:none}
+.star{
+  position:absolute;background:white;border-radius:50%;
+  animation:twinkle var(--d,3s) ease-in-out infinite;
+  animation-delay:var(--delay,0s);
+}
+@keyframes twinkle{0%,100%{opacity:var(--min,0.2)}50%{opacity:var(--max,0.8)}}
+
+.hero-eyebrow{
+  font-family:var(--font-mono);font-size:0.65rem;
+  letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:24px;
+  animation:fadeUp 1s ease both 0.2s;
+}
+.hero-title{
+  font-family:var(--font-display);
+  font-size:clamp(3rem,8vw,7rem);
+  font-weight:300;letter-spacing:0.08em;
+  line-height:1.05;
+  animation:fadeUp 1s ease both 0.4s;
+}
+.hero-title span{color:var(--gold)}
+.hero-tagline{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(1.1rem,2.5vw,1.6rem);
+  color:var(--ivory-dim);margin-top:16px;
+  animation:fadeUp 1s ease both 0.6s;
+}
+.hero-divider{
+  width:48px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  margin:32px auto;
+  animation:fadeUp 1s ease both 0.7s;
+}
+.hero-desc{
+  max-width:560px;font-size:1.05rem;line-height:1.7;
+  color:var(--ivory-dim);margin:0 auto 40px;
+  animation:fadeUp 1s ease both 0.8s;
+}
+.hero-actions{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 1s ease both 0.9s;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--navy);border:none;border-radius:3px;
+  padding:14px 32px;font-family:var(--font-mono);
+  font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;font-weight:400;
+  transition:opacity 0.2s,transform 0.15s;display:inline-block;
+}
+.btn-primary:hover{opacity:0.9;transform:translateY(-1px)}
+.btn-secondary{
+  background:transparent;border:1px solid rgba(245,240,232,0.2);
+  color:var(--ivory-dim);border-radius:3px;
+  padding:14px 28px;font-family:var(--font-mono);
+  font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+  cursor:pointer;text-decoration:none;
+  transition:all 0.2s;display:inline-block;
+}
+.btn-secondary:hover{border-color:rgba(245,240,232,0.4);color:var(--ivory)}
+
+/* SCREENSHOT */
+.screenshot-wrap{
+  width:90%;max-width:1100px;margin:80px auto 0;
+  position:relative;animation:fadeUp 1s ease both 1.1s;
+}
+.screenshot-glow{
+  position:absolute;inset:-2px;
+  border-radius:10px;
+  background:linear-gradient(135deg,rgba(201,168,76,0.3),transparent,rgba(201,168,76,0.1));
+  filter:blur(1px);
+}
+.screenshot-wrap img{
+  width:100%;border-radius:8px;
+  border:1px solid rgba(201,168,76,0.2);
+  display:block;position:relative;
+  box-shadow:0 40px 80px rgba(0,0,0,0.6);
+}
+
+/* HOW IT WORKS */
+.section{padding:120px 24px}
+.section-inner{max-width:1000px;margin:0 auto}
+.section-label{
+  font-family:var(--font-mono);font-size:0.6rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;text-align:center;
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:300;text-align:center;
+  margin-bottom:64px;
+}
+
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px}
+.step{
+  background:var(--navy-mid);
+  padding:40px 32px;position:relative;overflow:hidden;
+}
+.step::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity 0.3s;
+}
+.step:hover::before{opacity:1}
+.step-num{
+  font-family:var(--font-mono);font-size:0.6rem;
+  letter-spacing:0.15em;color:var(--gold);
+  margin-bottom:20px;display:block;
+}
+.step-title{
+  font-family:var(--font-display);font-size:1.4rem;
+  margin-bottom:12px;font-weight:400;
+}
+.step-desc{font-size:0.88rem;line-height:1.7;color:var(--ivory-dim)}
+
+/* STATS */
+.stats{
+  background:var(--navy-mid);
+  border-top:1px solid rgba(201,168,76,0.1);
+  border-bottom:1px solid rgba(201,168,76,0.1);
+  padding:60px 24px;
+}
+.stats-inner{
+  max-width:900px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:40px;text-align:center;
+}
+.stat-num{
+  font-family:var(--font-display);
+  font-size:clamp(2.5rem,5vw,4rem);
+  font-weight:300;color:var(--gold);
+  display:block;line-height:1;margin-bottom:8px;
+}
+.stat-label{
+  font-family:var(--font-mono);font-size:0.62rem;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--ivory-dim);
+}
+
+/* FOR AIRLINES */
+.for-airlines{padding:120px 24px;background:var(--navy)}
+.two-col{
+  max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;
+}
+@media(max-width:700px){.two-col{grid-template-columns:1fr}}
+.col-label{
+  font-family:var(--font-mono);font-size:0.6rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;
+}
+.col-title{
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,3vw,2.8rem);
+  font-weight:300;margin-bottom:24px;line-height:1.2;
+}
+.col-body{font-size:0.9rem;line-height:1.8;color:var(--ivory-dim);margin-bottom:32px}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:14px}
+.feature-list li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:0.88rem;color:var(--ivory-dim);line-height:1.5;
+}
+.feature-list li::before{
+  content:'✦';color:var(--gold);font-size:0.7rem;
+  flex-shrink:0;margin-top:2px;
+}
+
+/* CTA SECTION */
+.cta-section{
+  padding:120px 24px;text-align:center;
+  background:linear-gradient(to bottom,var(--navy),var(--navy-mid));
+  position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 100%,rgba(201,168,76,0.08),transparent 60%);
+  pointer-events:none;
+}
+.cta-title{
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:300;margin-bottom:16px;
+}
+.cta-sub{
+  font-family:var(--font-display);font-style:italic;
+  font-size:1.2rem;color:var(--ivory-dim);margin-bottom:40px;
+}
+
+/* FOOTER */
+footer{
+  background:var(--navy-mid);
+  border-top:1px solid rgba(255,255,255,0.06);
+  padding:32px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-brand{font-family:var(--font-display);font-size:1.1rem;letter-spacing:0.12em}
+.footer-brand span{color:var(--gold)}
+.footer-copy{font-family:var(--font-mono);font-size:0.6rem;letter-spacing:0.1em;color:var(--ivory-dim)}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+</style>
+</head>
+<body>
+
+<!-- STARS -->
+<div class="stars" id="stars"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">SKY<span>SPYE</span></div>
+  <a href="mailto:hello@skyspye.com" class="nav-cta">Request Demo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Passenger Experience · Ancillary Revenue · Window Seat Intelligence</div>
+  <h1 class="hero-title">SKY<span>SPYE</span></h1>
+  <p class="hero-tagline">Your window to the world below</p>
+  <div class="hero-divider"></div>
+  <p class="hero-desc">SkySpye tells passengers exactly what they'll see out their window — before they book. Landmarks, national parks, city skylines, natural wonders — ranked, timed, and assigned to a seat side. A new reason to choose the window seat.</p>
+  <div class="hero-actions">
+    <a href="mailto:hello@skyspye.com" class="btn-primary">Request a Demo</a>
+    <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+  </div>
+
+  <div class="screenshot-wrap">
+    <div class="screenshot-glow"></div>
+    <img src="screenshot.png" alt="SkySpye app showing KLAX to KLAS flight with points of interest" />
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div>
+      <span class="stat-num">38%</span>
+      <span class="stat-label">of passengers prefer window seats</span>
+    </div>
+    <div>
+      <span class="stat-num">2B</span>
+      <span class="stat-label">global ancillary revenue from seat upgrades</span>
+    </div>
+    <div>
+      <span class="stat-num">4.2M</span>
+      <span class="stat-label">commercial flights per month worldwide</span>
+    </div>
+    <div>
+      <span class="stat-num">0</span>
+      <span class="stat-label">tools that tell you what you'll actually see</span>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Intelligence for every window seat</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01 — ROUTE</span>
+        <div class="step-title">Flight path computed</div>
+        <p class="step-desc">SkySpye models the actual flight corridor including takeoff, cruise, and descent — calculating the precise visibility window on each side of the aircraft at every point.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02 — DISCOVER</span>
+        <div class="step-title">Landmarks identified</div>
+        <p class="step-desc">Every point of interest within the viewing corridor is identified — national parks, mountain ranges, city skylines, historic sites — enriched with Wikipedia context and imagery.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03 — SCORE</span>
+        <div class="step-title">Moments ranked</div>
+        <p class="step-desc">Each landmark is scored by fame, angular prominence from altitude, real-time weather visibility, and phase of flight — surfacing the moments genuinely worth looking up for.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">04 — DELIVER</span>
+        <div class="step-title">Passenger informed</div>
+        <p class="step-desc">Passengers see exactly which window side to choose, what time to look, and what they'll see — before they book. Airlines embed this in their app, booking flow, or IFE system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR AIRLINES -->
+<section class="for-airlines">
+  <div class="two-col">
+    <div>
+      <div class="col-label">For Airlines</div>
+      <h2 class="col-title">A new reason to sell the window seat at a premium</h2>
+      <p class="col-body">SkySpye sits at the booking moment — the point where passengers choose their seat. By showing what they'll see out the window, airlines gain a compelling new angle for window seat upsells, premium economy upgrades, and passenger engagement.</p>
+      <a href="mailto:hello@skyspye.com" class="btn-primary">Talk to Us</a>
+    </div>
+    <div>
+      <ul class="feature-list">
+        <li>Embeds in existing booking flows and mobile apps — no IFE hardware required</li>
+        <li>White-label ready with airline branding and colour schemes</li>
+        <li>Real-time weather and visibility data for accurate predictions</li>
+        <li>Wikipedia-enriched POI cards with images and context passengers actually want</li>
+        <li>Works as a pre-flight companion feature in airline apps</li>
+        <li>Compatible with IFE system integration for in-flight delivery</li>
+        <li>Route coverage expandable on demand for any airline network</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="cta-title">Ready to see what's below?</h2>
+  <p class="cta-sub">We're working with a small number of airline partners to pilot SkySpye.</p>
+  <a href="mailto:hello@skyspye.com" class="btn-primary">Request a Demo →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">SKY<span>SPYE</span></div>
+  <div class="footer-copy">© 2026 SkySpye · hello@skyspye.com · skyspye.com</div>
+</footer>
+
+<script>
+// Generate stars
+const starsEl = document.getElementById('stars');
+for(let i = 0; i < 80; i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 1.5 + 0.5;
+  s.style.cssText = ;
+  starsEl.appendChild(s);
+}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
